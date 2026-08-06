@@ -24,12 +24,12 @@
 
 ## Stage 1 — 혼자 굴리기
 
-- [ ] 기본 라벨 전부 삭제하고 5개만 새로 생성 (`bug` `feature` `chore` `idea` `blocked`)
-- [ ] `docs/stage1-issues.md`의 이슈 10개를 **웹 UI로 직접** 생성
-- [ ] Project 생성 → Board 뷰 → 이슈 10개 전부 올리기
-- [ ] Built-in workflow 2개 켜기 (*Item closed → Done*, *Auto-archive*)
-- [ ] 이슈 #3(README)을 `main`에 직접 커밋해서 처리, 메시지에 `Fixes #3`
-- [ ] 이슈가 자동으로 닫히고 보드에서 Done으로 이동하는 것 **눈으로 확인**
+- [x] 기본 라벨 8개 삭제하고 5개만 새로 생성 (`bug` `feature` `chore` `idea` `blocked`)
+- [x] `docs/stage1-issues.md`의 이슈 10개 생성 (#1~#10, 웹 UI 대신 `gh api --input`)
+- [x] Project `mini-delivery-bot` 생성 → Board 뷰 → 이슈 10개 (import 옵션으로 일괄)
+- [x] Built-in workflow 켜기 (*Item closed → Done*, *Auto-archive*) — 총 8개 활성
+- [x] 이슈 #3(README)을 `main`에 직접 커밋해서 처리, 메시지에 `Fixes #3` → bd68518
+- [ ] 이슈가 자동으로 닫히고 보드에서 Done으로 이동하는 것 **눈으로 확인** ← 직접
 - [ ] 💥 이슈 3개에 `status: in-progress` 라벨을 만들어 붙여보기
 - [ ] 💥 그 상태로 "진행 중인 게 뭐지?"를 찾아보고 Board 뷰와 비교 → 라벨 삭제
 - [ ] `_answers/stage1/seed_issues.sh`를 열어 CLI 방식과 비교
