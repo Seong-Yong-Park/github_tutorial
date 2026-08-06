@@ -29,12 +29,20 @@
 - [x] Project `mini-delivery-bot` 생성 → Board 뷰 → 이슈 10개 (import 옵션으로 일괄)
 - [x] Built-in workflow 켜기 (*Item closed → Done*, *Auto-archive*) — 총 8개 활성
 - [x] 이슈 #3(README)을 `main`에 직접 커밋해서 처리, 메시지에 `Fixes #3` → bd68518
-- [ ] 이슈가 자동으로 닫히고 보드에서 Done으로 이동하는 것 **눈으로 확인** ← 직접
-- [ ] 💥 이슈 3개에 `status: in-progress` 라벨을 만들어 붙여보기
-- [ ] 💥 그 상태로 "진행 중인 게 뭐지?"를 찾아보고 Board 뷰와 비교 → 라벨 삭제
-- [ ] `_answers/stage1/seed_issues.sh`를 열어 CLI 방식과 비교
+- [x] 이슈가 자동으로 닫히고 보드에서 Done으로 이동하는 것 **눈으로 확인** (Todo 9 / Done 1)
+- [~] 💥 `status: in-progress` 라벨 실습 — **의도적으로 건너뜀.** 결론은 아래에 기록
+- [x] `_answers/stage1/seed_issues.sh` 대신 `gh api --input` 방식으로 진행 (한글 인코딩 이슈 회피)
 
-**✅ 완료 조건** — 커밋 메시지만으로 이슈가 닫히고 보드가 움직이는 것을 확인함
+**✅ 완료 조건** — 커밋 메시지만으로 이슈가 닫히고 보드가 움직이는 것을 확인함 → **달성**
+
+> **건너뛴 실습의 결론 (자가 점검 질문 1번의 답)**
+> 라벨은 배타성을 강제하지 못하고 변경 이력이 없다. `status: in-progress`와 `status: done`이
+> 동시에 붙어도 GitHub은 막지 않고, 언제 붙었는지도 남지 않아 번다운·사이클타임 계산이 불가능하다.
+> 상태는 Project의 Status 필드(single-select + 이력 보존)로 관리한다.
+>
+> **동작 확인된 연쇄**: `push(Fixes #3)` → GitHub이 커밋 메시지 파싱 → 이슈 종료
+> → Projects `Item closed` 워크플로 → `Status = Done` → Board 뷰 재배치.
+> 셋 다 별개 장치라 하나만 꺼져도 거기서 멈춘다. ①은 **default branch에 들어올 때만** 동작.
 
 ---
 
