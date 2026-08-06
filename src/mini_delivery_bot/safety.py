@@ -12,7 +12,7 @@ import math
 
 REACTION_TIME_S = 0.3
 MAX_DECEL_MPS2 = 1.2
-SAFETY_MARGIN_M = 0.15
+SAFETY_MARGIN_M = 0.30  # 유리벽 오검출 대비 (안전 우선)
 
 
 def stopping_distance(speed_mps: float) -> float:
