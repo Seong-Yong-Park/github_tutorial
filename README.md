@@ -32,7 +32,7 @@ pip install -e ".[dev]"
 ### 검증
 
 ```powershell
-pytest -q            # 9 passed
+pytest -q            # 12 passed
 ruff check .         # All checks passed!
 ```
 
