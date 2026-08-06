@@ -1,0 +1,77 @@
+name: 🐛 버그 리포트
+description: 의도한 동작과 실제 동작이 다른 경우
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **재현 절차가 없는 버그 리포트는 조사에 들어가지 못합니다.**
+        아래 3칸(재현 / 현상 / 기대)은 필수입니다.
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 재현 절차
+      description: 다른 사람이 그대로 따라 할 수 있게. 조건(환경, 지속 시간, 위치)도 포함.
+      placeholder: |
+        1. 실내 유리벽 근처에서 주행 시작
+        2. 5분 이상 연속 주행
+        3. /scan 토픽의 최근접 거리 확인
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 실제 현상
+      description: 관측된 값·로그·에러 메시지를 그대로. "안 됨"은 현상이 아닙니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 기대 동작
+      description: 무엇이 맞는 동작인지, 그 근거(요구사항·설계 의도)와 함께.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: 재현 빈도
+      options:
+        - 항상
+        - 간헐적 (조건 파악됨)
+        - 간헐적 (조건 불명)
+        - 1회만 관측
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 심각도 (신고자 기준)
+      description: |
+        실제 우선순위는 트리아지 때 Project 의 Priority 필드로 정합니다.
+        여기 값은 "신고자가 이렇게 느꼈다"는 정보입니다.
+      options:
+        - P0 - 주행 불가 / 안전 문제
+        - P1 - 기능 동작 안 함
+        - P2 - 불편하지만 우회 가능
+    validations:
+      required: true
+
+  - type: input
+    id: req
+    attributes:
+      label: 관련 Notion REQ ID
+      description: 요구사항 위반이면 해당 REQ ID. 없으면 비워두세요.
+      placeholder: REQ-003
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 로그 / 스크린샷
+      description: 붙여넣으면 자동으로 코드 블록이 됩니다.
+      render: shell
