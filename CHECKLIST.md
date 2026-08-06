@@ -48,10 +48,10 @@
 
 ## Stage 2 — PR 워크플로
 
-- [ ] `git switch -c fix/imu-nan` → `safety.py`의 NaN 버그 수정 → PR 생성 (CLI로)
-- [ ] `tests/test_safety.py` 맨 아래 주석 처리된 테스트를 풀고 통과시키기
-- [ ] 자기 PR에 **라인 코멘트** 달아보기
-- [ ] Draft PR 만들어보고 Ready for review로 전환
+- [x] `git switch -c fix/imu-nan` → `safety.py`의 NaN 버그 수정 → PR #12 (CLI로)
+- [x] `tests/test_safety.py` 주석 테스트 해제 + 속도 NaN·inf 회귀 테스트 추가 (12 passed)
+- [x] 자기 PR에 **라인 코멘트** 달아보기 (`safety.py:34`)
+- [x] Draft PR 만들어보고 Ready for review로 전환
 - [x] `.github/pull_request_template.md` 작성 → `_answers/stage2/`와 비교 완료
 - [x] Repo Settings에서 **Squash merge만 허용**하도록 변경 (+ head 브랜치 자동 삭제)
 - [x] Ruleset `main-protection` 생성 — `pull_request` / `deletion` / `non_fast_forward`
@@ -70,10 +70,24 @@
 >
 > → 교훈: repo의 **공개 범위(Part 3의 경계 축 5번)를 첫 커밋 전에** 정할 것.
 > 나중에 바꾸면 히스토리·이슈·PR이 전부 정리 대상이 된다.
-- [ ] 💥 `main`에 직접 `git push` 시도 → **거부 메시지 읽기**
-- [ ] 💥 브랜치 3개에서 같은 파일 수정 후 순서대로 머지 → 충돌 해결 경험
+- [x] 💥 `main`에 직접 `git push` 시도 → `GH013: Repository rule violations found` 거부 확인
+- [x] 💥 브랜치 3개에서 같은 줄 수정 후 순서대로 머지 → 충돌 2회 해결 (PR #13/#14/#15)
 
-**✅ 완료 조건** — main 직접 push 불가 / 머지된 PR 3개 이상 / 전부 squash
+**✅ 완료 조건** — main 직접 push 불가 / 머지된 PR **5개** / 전부 squash (히스토리 선형) → **달성**
+
+> **충돌 실습에서 실제로 배운 것**
+> 세 브랜치가 `SAFETY_MARGIN_M` 을 각각 0.30 / 0.22 / 0.18 로 고쳤다.
+> 셋 다 분기 시점에는 `MERGEABLE / CLEAN` 이었고, **첫 PR이 머지된 직후** 나머지 둘이
+> `CONFLICTING / DIRTY` 로 바뀌었다. 충돌은 브랜치를 만들 때가 아니라 **머지 순서에 의해**
+> 사후적으로 생긴다.
+>
+> 해결하면서 값 하나를 고르는 대신 **상·하한의 근거를 주석 블록으로 승격**시켰더니,
+> 세 번째 충돌에서 그 블록이 곧바로 판단 기준이 됐다 — 0.18 이 명시된 하한 0.20 을
+> 위반한다는 게 코드만 보고 드러나서, 0.20 으로 수렴시켰다.
+>
+> → 충돌 해결은 "어느 쪽을 고를까"가 아니라 **"왜 갈렸는지를 코드에 남길 기회"**다.
+> 짧게 살고 빨리 머지하는 브랜치(GitHub Flow)를 권하는 이유이기도 하다.
+> 세 브랜치가 2주씩 살아 있었다면 이 충돌은 훨씬 크고 근거는 이미 잊혔을 것이다.
 
 ---
 
