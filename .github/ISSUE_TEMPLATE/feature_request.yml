@@ -1,0 +1,64 @@
+name: ✨ 기능 요청
+description: 새 기능 또는 기존 기능의 동작 확장
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **요구사항의 원본은 Notion 입니다.** 여기에는 "무엇을 만들 것인가"만 적고,
+        "왜 필요한가"는 Notion REQ 페이지를 참조하세요.
+
+  - type: input
+    id: req
+    attributes:
+      label: 관련 Notion REQ ID
+      description: |
+        Notion SYS-REQ DB 의 ID. 이 값으로 양쪽을 연결합니다.
+        아직 요구사항이 없다면 `없음` 이라고 쓰고, 승인 후 다시 채우세요.
+      placeholder: REQ-003
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: 무엇을 만드는가
+      description: 관측 가능한 동작으로. 구현 방법이 아니라 결과를 적으세요.
+      placeholder: /battery_state 토픽으로 SOC 와 예상 잔여 주행 시간을 1Hz 로 퍼블리시한다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: done
+    attributes:
+      label: 완료 조건
+      description: 이것이 충족되면 이슈를 닫을 수 있다는 기준. 검증 방법까지.
+      placeholder: |
+        - [ ] 토픽이 1Hz 로 발행됨
+        - [ ] 배터리 미연결 시 NaN 대신 명시적 무효값을 발행
+        - [ ] 단위 테스트 추가
+    validations:
+      required: true
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: 영향 계층
+      description: 여러 계층에 걸치면 sub-issue 로 쪼개는 것을 고려하세요.
+      multiple: true
+      options:
+        - interfaces (msg/srv 정의)
+        - drivers / hal
+        - perception / localization
+        - planning / control
+        - bringup (launch, params)
+        - firmware
+        - tooling / CI
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 참고
+      description: 관련 이슈, 설계 문서 링크, 제약 사항 등.
