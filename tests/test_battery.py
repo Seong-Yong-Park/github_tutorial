@@ -1,9 +1,11 @@
+import json
 import math
 
 import pytest
 
 from mini_delivery_bot.battery import (
     battery_level,
+    battery_telemetry,
     remaining_minutes,
     state_of_charge,
 )
@@ -32,3 +34,16 @@ def test_remaining_minutes():
 )
 def test_battery_level(soc, expected):
     assert battery_level(soc) == expected
+
+
+def test_battery_telemetry_is_valid_json():
+    payload = json.loads(battery_telemetry(0.5, 5.0))
+    assert payload["soc"] == 0.5
+    assert payload["level"] == "ok"
+    assert payload["remaining_min"] == pytest.approx(120.0)
+
+
+def test_battery_telemetry_with_zero_current():
+    """전류 0 이면 remaining_minutes 가 inf 를 반환하는데, JSON 은 inf 를 표현하지 못한다."""
+    raw = battery_telemetry(0.5, 0.0)
+    assert "Infinity" in raw  # json.dumps 의 비표준 확장. 수신측이 파싱 못 할 수 있다.
