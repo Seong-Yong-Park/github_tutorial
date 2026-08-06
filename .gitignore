@@ -10,3 +10,4 @@ dist/
 .env
 .DS_Store
 ws/
+.claude/settings.local.json
