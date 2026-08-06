@@ -1,0 +1,27 @@
+# releases/model-a/2026.08.0.yaml
+#
+# 로봇 한 대에 실제로 올라간 "버전 조합"의 단일 기록처.
+# GitHub Release 에 이 파일을 첨부하고 태그를 찍으면 그게 곧 감사 기록입니다.
+
+robot_model: model-a
+release: 2026.08.0
+released_at: 2026-08-04
+
+components:
+  robot_stack:        v0.1.0
+  robot_descriptions: v0.1.0
+  robot_config:       v0.1.0
+  firmware_motor:     v0.0.3
+  firmware_power:     v0.0.1
+  perception_model:   yolo-seg-2026.07@sha256:ab12cd34ef56
+  os_image:           jammy-humble-2026.06
+
+validated_on:
+  sim_scenarios: 12/12 pass
+  hil_suite:     0/0  (미구축)
+  field_hours:   0h
+
+known_issues:
+  - "#2 라이다 NaN 처리 - 완화 조치만 적용"
+
+rollback_to: 2026.07.2

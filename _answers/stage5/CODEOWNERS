@@ -1,0 +1,10 @@
+# .github/CODEOWNERS
+# 경로에 매칭되는 PR이 열리면 해당 팀이 자동으로 리뷰어로 지정됩니다.
+# 아래 줄일수록 우선순위가 높습니다 (마지막 매칭이 이깁니다).
+
+*                          @YOUR-ORG/autonomy
+
+/src/mini_delivery_bot/safety.py   @YOUR-ORG/autonomy
+/firmware/                 @YOUR-ORG/firmware
+/.github/workflows/        @YOUR-ORG/autonomy
+*.yml                      @YOUR-ORG/autonomy

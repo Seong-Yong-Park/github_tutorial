@@ -1,0 +1,22 @@
+# vcstool 용 매니페스트.
+#   mkdir -p ws/src && cd ws
+#   vcs import src < ../robot.repos
+#
+# dev.repos  : version 을 전부 main 으로 (개발용)
+# release.repos : version 을 전부 태그로 고정 (릴리스용)
+
+repositories:
+  robot_stack:
+    type: git
+    url: git@github.com:YOUR-ORG/robot-stack.git
+    version: v0.1.0
+
+  robot_descriptions:
+    type: git
+    url: git@github.com:YOUR-ORG/robot-descriptions.git
+    version: v0.1.0
+
+  robot_config_model_a:
+    type: git
+    url: git@github.com:YOUR-ORG/robot-config-model-a.git
+    version: v0.1.0

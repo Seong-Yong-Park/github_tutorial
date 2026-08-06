@@ -1,0 +1,32 @@
+# .github repo 의 .github/workflows/python-ci.yml
+# 다른 repo 에서 재사용할 수 있는 워크플로
+
+name: Reusable Python CI
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        type: string
+        default: "3.12"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: pytest -q
+
+---
+# 호출하는 쪽 (각 repo 의 .github/workflows/ci.yml)
+#
+# name: CI
+# on: [pull_request]
+# jobs:
+#   call:
+#     uses: YOUR-ORG/.github/.github/workflows/python-ci.yml@main

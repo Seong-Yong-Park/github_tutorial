@@ -1,0 +1,29 @@
+[project]
+name = "mini-delivery-bot"
+version = "0.1.0"
+description = "GitHub 프로젝트 관리 실습용 가상 로봇 프로젝트"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+# _answers 는 조각 코드라 검사 대상에서 제외합니다
+exclude = ["_answers"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
