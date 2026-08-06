@@ -10,10 +10,11 @@
 
 ## Stage 0 — 준비운동
 
-- [ ] GitHub 계정에 2FA 활성화 ← **웹 UI, 직접**
-- [x] `gh` CLI 설치 (v2.97.0, winget) / [ ] `gh auth login` ← **브라우저 인증, 직접**
-- [ ] `gh auth status`가 정상 출력되는지 확인
-- [x] 이 repo를 `git init` → commit / [ ] `gh repo create --private --push`
+- [ ] GitHub 계정에 2FA 활성화 ← **웹 UI, 직접 (유일한 미완료 항목)**
+- [x] `gh` CLI 설치 (v2.97.0, winget) + `gh auth login` (Seong-Yong-Park, HTTPS)
+- [x] `gh auth status` 정상 — 스코프 `gist, read:org, repo, workflow`
+- [x] 이 repo를 `git init` → commit → `gh repo create --private --push`
+      → https://github.com/Seong-Yong-Park/github_tutorial
 - [x] `pip install -e ".[dev]"` 후 `pytest -q` 통과 확인 (9 passed, ruff clean)
 - [x] `docs/notion-boundary.md`의 "직접 채우기" 3줄 작성
 
