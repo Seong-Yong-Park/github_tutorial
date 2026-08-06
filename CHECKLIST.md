@@ -53,7 +53,7 @@
 - [ ] 자기 PR에 **라인 코멘트** 달아보기
 - [ ] Draft PR 만들어보고 Ready for review로 전환
 - [ ] `.github/pull_request_template.md` 직접 작성 → `_answers/stage2/`와 비교
-- [ ] Repo Settings에서 **Squash merge만 허용**하도록 변경
+- [x] Repo Settings에서 **Squash merge만 허용**하도록 변경 (+ head 브랜치 자동 삭제)
 - [ ] Ruleset 생성 — `main` 대상, "Require a pull request before merging"
 - [ ] 💥 `main`에 직접 `git push` 시도 → **거부 메시지 읽기**
 - [ ] 💥 브랜치 3개에서 같은 파일 수정 후 순서대로 머지 → 충돌 해결 경험
