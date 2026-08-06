@@ -6,27 +6,66 @@
 
 ---
 
-## 처음 한 번만
+## 빌드 & 테스트 (clone 후 5분)
 
-```bash
-cd C:\Git_Repository\github_tutorial
+### 필요한 것
 
+| 도구 | 버전 | 확인 |
+|---|---|---|
+| Python | **3.10 이상** (`pyproject.toml`의 `requires-python`) | `py -0p` 로 설치된 버전 목록 확인 |
+| Git | 2.x | `git --version` |
+| GitHub CLI | 2.x | `gh --version` — `winget install --id GitHub.cli` |
+
+### 환경 구성
+
+```powershell
+git clone https://github.com/Seong-Yong-Park/github_tutorial.git
+cd github_tutorial
+
+py -3.10 -m venv .venv                 # 시스템 python 이 3.9 이하일 수 있으므로 버전 명시
+.\.venv\Scripts\Activate.ps1           # Windows PowerShell
+# source .venv/bin/activate            # macOS / Linux
+
+pip install -e ".[dev]"
+```
+
+### 검증
+
+```powershell
+pytest -q            # 9 passed
+ruff check .         # All checks passed!
+```
+
+이 두 줄이 통과하면 준비 완료입니다. **CI(`.github/workflows/ci.yml`)가 도는 것과 동일한 검사**이므로,
+로컬에서 통과하면 PR에서도 통과합니다.
+
+### 자주 걸리는 것
+
+- **`gh: 용어가 인식되지 않습니다`** — winget 설치 직후에는 실행 중인 에디터/터미널이 옛 PATH를 물고 있습니다.
+  VS Code 자체를 재시작하거나, 현재 세션에만 경로를 덧붙이세요:
+  ```powershell
+  $env:Path += ";C:\Program Files\GitHub CLI"
+  ```
+  `$env:Path`를 통째로 다시 읽으면 venv 활성화가 풀리니 **덧붙이기**만 하세요.
+
+- **`Activate.ps1 을 로드할 수 없습니다`** — 실행 정책 문제입니다. 현재 세션에만 완화:
+  ```powershell
+  Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+  ```
+
+- **`pip install` 이 사내 인덱스에서 멈춤 / DNS 실패** — 사내 인덱스(프록시)가 기본값으로 잡혀 있는 환경입니다.
+  공개 PyPI로 우회하세요:
+  ```powershell
+  pip install --index-url https://pypi.org/simple -e ".[dev]"
+  ```
+
+### 처음 한 번만 (이 repo를 새로 만들 때)
+
+```powershell
 git init
 git add .
 git commit -m "chore: initial scaffold"
-
-# GitHub에 private repo 생성 + 푸시 (gh CLI)
 gh repo create github_tutorial --private --source=. --remote=origin --push
-```
-
-Python 환경 (CI 실습에 필요):
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -e ".[dev]"
-pytest -q                      # 3 passed 나오면 정상
-ruff check .                   # All checks passed 나오면 정상
 ```
 
 ---
