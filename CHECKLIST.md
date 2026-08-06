@@ -52,9 +52,24 @@
 - [ ] `tests/test_safety.py` 맨 아래 주석 처리된 테스트를 풀고 통과시키기
 - [ ] 자기 PR에 **라인 코멘트** 달아보기
 - [ ] Draft PR 만들어보고 Ready for review로 전환
-- [ ] `.github/pull_request_template.md` 직접 작성 → `_answers/stage2/`와 비교
+- [x] `.github/pull_request_template.md` 작성 → `_answers/stage2/`와 비교 완료
 - [x] Repo Settings에서 **Squash merge만 허용**하도록 변경 (+ head 브랜치 자동 삭제)
-- [ ] Ruleset 생성 — `main` 대상, "Require a pull request before merging"
+- [x] Ruleset `main-protection` 생성 — `pull_request` / `deletion` / `non_fast_forward`
+
+> **⚠️ 요금제 제약 — 이 단계에서 실제로 막힌 것**
+> GitHub Free 플랜에서 Ruleset(브랜치 보호)은 **public repo에서만** 동작한다.
+> private 상태에서는 규칙을 만들어도 강제되지 않고 `main` 직접 push가 그대로 통과한다
+> (`GET /rules/branches/main` → 403 *Upgrade to GitHub Pro or make this repository public*).
+> 그래서 이 repo를 **public으로 전환**했다.
+>
+> 전환 전에 사내 식별 정보(제품 코드명, 내부 호스트명)를 문서에서 일반화하고
+> `git filter-branch`로 **커밋 히스토리까지 재작성**했다. 그런데 그것만으로는 부족했다 —
+> 이슈 타임라인의 *"closed this in \<sha\>"* 링크가 재작성 전 커밋을 영구 참조하고,
+> GitHub은 force push 후에도 그 객체를 SHA로 계속 서빙한다.
+> 결국 **repo를 삭제하고 재생성**해야 원격에서 완전히 사라졌다.
+>
+> → 교훈: repo의 **공개 범위(Part 3의 경계 축 5번)를 첫 커밋 전에** 정할 것.
+> 나중에 바꾸면 히스토리·이슈·PR이 전부 정리 대상이 된다.
 - [ ] 💥 `main`에 직접 `git push` 시도 → **거부 메시지 읽기**
 - [ ] 💥 브랜치 3개에서 같은 파일 수정 후 순서대로 머지 → 충돌 해결 경험
 
