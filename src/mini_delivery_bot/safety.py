@@ -12,7 +12,11 @@ import math
 
 REACTION_TIME_S = 0.3
 MAX_DECEL_MPS2 = 1.2
-SAFETY_MARGIN_M = 0.30  # 유리벽 오검출 대비 (안전 우선)
+# 정지 여유(m).
+#   - 하한: 실내 통로 폭 0.9m 에서 양쪽 여유를 확보하려면 0.20 이상이 필요하다.
+#   - 상한: 유리벽 구간의 라이다 오검출을 감안하되, 과하면 불필요한 급정지가 잦아진다.
+# 값만 바꾸지 말고 근거를 이 블록에 함께 갱신할 것. (#7)
+SAFETY_MARGIN_M = 0.22
 
 
 def stopping_distance(speed_mps: float) -> float:
