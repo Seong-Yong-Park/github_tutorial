@@ -6,7 +6,6 @@ mini-delivery-bot의 배터리 관리 보드에서 올라오는 값을 해석한
 from __future__ import annotations
 
 import json
-import os
 
 NOMINAL_CAPACITY_AH = 20.0
 LOW_BATTERY_RATIO = 0.20
@@ -41,7 +40,6 @@ def battery_telemetry(soc: float, current_a: float) -> str:
         "level": battery_level(soc),
         "remaining_min": remaining_minutes(soc, current_a),
     }
-    unused_threshold = LOW_BATTERY_RATIO * 100
     return json.dumps(payload)
 
 
