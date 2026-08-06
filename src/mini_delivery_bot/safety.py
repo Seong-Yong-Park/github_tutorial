@@ -12,7 +12,7 @@ import math
 
 REACTION_TIME_S = 0.3
 MAX_DECEL_MPS2 = 1.2
-SAFETY_MARGIN_M = 0.15
+SAFETY_MARGIN_M = 0.22  # 실내 통로 폭 0.9m 기준
 
 
 def stopping_distance(speed_mps: float) -> float:
