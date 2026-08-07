@@ -93,16 +93,41 @@
 
 ## Stage 3 — 자동화와 게이트
 
-- [ ] `.github/workflows/ci.yml` 직접 작성 (ruff + pytest)
-- [ ] Ruleset에 **Require status checks to pass** 추가하고 위 CI 지정
-- [ ] `.github/ISSUE_TEMPLATE/bug_report.yml` 작성
-- [ ] `.github/ISSUE_TEMPLATE/feature_request.yml` 작성 (**REQ ID 칸 포함**)
-- [ ] `.github/workflows/add-to-project.yml` 추가 → 새 이슈가 자동으로 보드에 오르는지 확인
-- [ ] 💥 일부러 lint 에러가 있는 PR 생성 → **머지 버튼이 잠기는 것 확인**
-- [ ] 💥 Actions 로그를 열어 실패 원인 줄까지 찾아가보기
-- [ ] `_answers/stage3/`와 비교
+- [x] `.github/workflows/ci.yml` 작성 (ruff + pytest, job name `lint-and-test`)
+- [x] Ruleset에 **Require status checks to pass** 추가하고 `lint-and-test` 지정
+- [x] `.github/ISSUE_TEMPLATE/bug_report.yml` 작성 (재현/현상/기대 필수)
+- [x] `.github/ISSUE_TEMPLATE/feature_request.yml` 작성 (**REQ ID 필수 입력**)
+- [x] `.github/workflows/add-to-project.yml` 추가 → 이슈 #20 이 자동으로 보드에 오름
+- [x] 💥 lint 에러가 있는 PR(#18) → `mergeStateStatus=BLOCKED`, CLI 머지도 거부
+- [x] 💥 Actions 로그에서 실패 스텝(`Lint (ruff)`)과 원인 줄(`battery.py:9:8`) 확인
+- [x] `_answers/stage3/`와 비교 — `cache: pip`, 심각도 드롭다운을 정답지에서 가져옴
 
-**✅ 완료 조건** — 깨진 코드가 물리적으로 머지 불가 / 이슈 폼에 REQ ID 칸이 있음
+**✅ 완료 조건** — 깨진 코드가 물리적으로 머지 불가 / 이슈 폼에 REQ ID 칸이 있음 → **달성**
+
+> **① `mergeable` 과 `mergeStateStatus` 는 다른 축이다**
+> | 상황 | `mergeable` | `mergeStateStatus` |
+> |---|---|---|
+> | Stage 2 충돌 (#14, #15) | `CONFLICTING` | `DIRTY` |
+> | Stage 3 lint 실패 (#18) | `MERGEABLE` | `BLOCKED` |
+>
+> 전자는 **git 이 합칠 수 있는가**, 후자는 **정책이 허락하는가**. #18 은 충돌이 전혀 없는데도 막혔다.
+>
+> **② status check 이름 = job 의 `name`**
+> 워크플로 이름(`CI`)도 step 이름(`Lint (ruff)`)도 아니다. Ruleset 에 지정할 context 는
+> job 의 `name` 값(`lint-and-test`)이다. 여기서 한 번은 반드시 헷갈린다.
+>
+> **③ 워크플로 파일을 어디서 읽는가 — 시크릿 정책과 한 쌍**
+> | 이벤트 | 파일 출처 | fork PR 에 시크릿 |
+> |---|---|---|
+> | `pull_request` | 머지 커밋 (PR 이 추가한 워크플로도 실행됨) | 주지 않음 |
+> | `pull_request_target` | base 브랜치 (PR 이 고쳐도 무시) | 줌 |
+>
+> `pull_request_target` 이 base 에 고정되는 이유가 보안이다. 시크릿을 주면서 워크플로 수정까지
+> 허용하면 토큰을 훔쳐가는 PR 이 가능해진다. (PR #19 에서 실제로 확인)
+>
+> **④ 기본 `GITHUB_TOKEN` 의 사정거리는 repo 안까지**
+> Projects 는 repo 가 아니라 사용자/조직에 속한 리소스라 범위 밖이다.
+> 그래서 `project` 스코프 PAT 을 별도 시크릿(`ADD_TO_PROJECT_PAT`)으로 주입해야 한다.
 
 ---
 
