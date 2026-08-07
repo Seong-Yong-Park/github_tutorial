@@ -27,3 +27,8 @@
 오늘 한 것 : CI(ruff+pytest) 작성 → Ruleset 에 `lint-and-test` 필수 체크 등록 → 일부러 깨뜨린 PR(#18)이 BLOCKED 되는 것 확인 → 수정 push 로 CLEAN 전환. 이슈 폼 2종, add-to-project 액션(PAT 시크릿) 까지 완료
 막힌 것    : PR #19 본문에 "워크플로는 base 기준으로 로드되니 이번엔 실행 안 된다"고 썼는데 **틀렸다.** `pull_request` 는 머지 커밋 기준이라 PR 이 추가한 워크플로도 실행된다. base 기준인 것은 `pull_request_target` 이고, 그건 fork PR 에 시크릿을 주기 때문에 그렇게 설계된 것. 파일 출처와 시크릿 정책이 한 쌍
 다음 할 것 : Stage 4 — sub-issue 계층, Milestone, Project 필드(Priority/Estimate/Sprint), 뷰 3종, Insights. 이슈 #20(JSON Infinity)을 첫 sub-issue 실습 소재로 쓸 수 있음
+
+[2026-08-07] Stage 4
+오늘 한 것 : Epic #22 + sub-issue 5건(기존 이슈 연결), Milestone v0.1, 필드 3종, 뷰 3종, Insights 차트. 압축 스프린트 1회 — 계획 13점 중 3점 완료, 10점 이월, velocity 반영해 Sprint 2 를 5점으로 축소. #20 은 시뮬레이션이 아니라 실제로 고침(PR #23)
+막힌 것    : (1) iteration 필드는 GraphQL 로 **생성만** 되고 주기 설정 뮤테이션이 없어 UI 필수. (2) `gh project field-create` 는 ITERATION 을 아예 거부. (3) sub-issue API 는 이슈 번호가 아니라 **내부 id** 를 요구 — repo 를 넘나드는 관계라 전역 id 여야 함. (4) PowerShell 에서 GraphQL 을 인자로 넘기면 따옴표가 깨짐 → `-F query=@파일` + 변수로 해결. `Set-Content -Encoding UTF8` 은 BOM 을 붙여서 파서가 거부함
+다음 할 것 : Burn up 차트 Aug 13 확인. Stage 5 — Organization 생성, repo transfer, Team 2개, CODEOWNERS, Issue Types, 조직 Project(Roadmap)
