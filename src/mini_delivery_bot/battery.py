@@ -6,6 +6,7 @@ mini-delivery-bot의 배터리 관리 보드에서 올라오는 값을 해석한
 from __future__ import annotations
 
 import json
+import math
 
 NOMINAL_CAPACITY_AH = 20.0
 LOW_BATTERY_RATIO = 0.20
@@ -34,13 +35,29 @@ def remaining_minutes(soc: float, current_a: float) -> float:
 
 
 def battery_telemetry(soc: float, current_a: float) -> str:
-    """배터리 상태를 텔레메트리용 JSON 문자열로 직렬화한다."""
+    """배터리 상태를 텔레메트리용 JSON 문자열로 직렬화한다.
+
+    표준 JSON 은 Infinity / NaN 을 표현하지 못한다. `json.dumps` 의 기본값은
+    이를 비표준 확장으로 흘려보내지만, 수신측(브라우저 `JSON.parse` 등)이
+    거부하므로 여기서 막는다.
+
+    무한대는 "매우 큰 수"가 아니라 **계산 불가**이므로 `null` 로 내보내고,
+    사유를 별도 불리언으로 전달한다. 상한값으로 클램프하면 수신측이 그 값을
+    실제 잔여 시간으로 오해한다.
+    """
+    remaining = remaining_minutes(soc, current_a)
+    is_unknown = not math.isfinite(remaining)
+
     payload = {
         "soc": soc,
         "level": battery_level(soc),
-        "remaining_min": remaining_minutes(soc, current_a),
+        "remaining_min": None if is_unknown else remaining,
+        "remaining_min_unknown": is_unknown,
     }
-    return json.dumps(payload)
+
+    # allow_nan=False: 남은 필드에 inf/nan 이 섞여 들어오면 조용히 비표준
+    # JSON 을 만드는 대신 ValueError 로 터뜨린다.
+    return json.dumps(payload, allow_nan=False)
 
 
 def battery_level(soc: float) -> str:
