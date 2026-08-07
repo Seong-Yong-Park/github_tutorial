@@ -41,9 +41,20 @@ def test_battery_telemetry_is_valid_json():
     assert payload["soc"] == 0.5
     assert payload["level"] == "ok"
     assert payload["remaining_min"] == pytest.approx(120.0)
+    assert payload["remaining_min_unknown"] is False
 
 
-def test_battery_telemetry_with_zero_current():
-    """전류 0 이면 remaining_minutes 가 inf 를 반환하는데, JSON 은 inf 를 표현하지 못한다."""
+def test_battery_telemetry_with_zero_current_is_standard_json():
+    """전류 0 이면 잔여 시간이 inf 가 되는데, 표준 JSON 은 이를 표현하지 못한다."""
     raw = battery_telemetry(0.5, 0.0)
-    assert "Infinity" in raw  # json.dumps 의 비표준 확장. 수신측이 파싱 못 할 수 있다.
+
+    assert "Infinity" not in raw
+    payload = json.loads(raw)  # 표준 파서가 받아들여야 한다
+    assert payload["remaining_min"] is None
+    assert payload["remaining_min_unknown"] is True
+
+
+def test_battery_telemetry_rejects_nan_input():
+    """NaN 이 섞이면 조용히 비표준 JSON 을 만들지 말고 터져야 한다."""
+    with pytest.raises(ValueError):
+        battery_telemetry(float("nan"), 5.0)
