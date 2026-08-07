@@ -1,0 +1,24 @@
+name: Add to project
+
+# 새로 열린 이슈/PR 을 보드에 자동으로 올린다.
+#
+# Projects 의 내장 워크플로 "Auto-add to project" 로도 같은 일을 할 수 있지만,
+# 이쪽은 조건 분기·여러 보드 라우팅·다른 액션과의 조합이 가능하다.
+# 지금은 내장 워크플로를 꺼두고 이 액션만 동작하게 해서 효과를 검증한다.
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  add:
+    name: add-to-project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v1.0.2
+        with:
+          project-url: https://github.com/users/Seong-Yong-Park/projects/8
+          # 기본 GITHUB_TOKEN 은 Projects 에 쓸 권한이 없다.
+          # classic PAT(project 스코프)을 repo Secret 으로 등록해야 한다.
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
