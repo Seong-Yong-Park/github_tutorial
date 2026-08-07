@@ -22,3 +22,8 @@
 오늘 한 것 : 라벨 5개·이슈 10개·Board 구성, `Fixes #3` 자동 종료 확인. public 전환 후 Ruleset 적용, NaN 버그 수정 PR(#12), 브랜치 3개 충돌 해결(#13~#15). 머지된 PR 5개 전부 squash
 막힌 것    : (1) Free 플랜 private 에서는 Ruleset 이 강제되지 않음 — UI 로는 알 수 없고 실제로 push 해봐야 드러남. (2) repo 재생성 후 머지 설정(squash-only, head 자동 삭제)이 초기화되는 걸 놓쳐서 브랜치가 하나 남음. **repo 설정은 코드가 아니라서 히스토리에 안 남는다**
 다음 할 것 : Stage 3 — CI 작성 후 Ruleset 에 status check 연결. 그 전에 Projects 의 `Auto-add to project` 워크플로를 꺼야 add-to-project 액션의 동작을 검증할 수 있음
+
+[2026-08-07] Stage 3
+오늘 한 것 : CI(ruff+pytest) 작성 → Ruleset 에 `lint-and-test` 필수 체크 등록 → 일부러 깨뜨린 PR(#18)이 BLOCKED 되는 것 확인 → 수정 push 로 CLEAN 전환. 이슈 폼 2종, add-to-project 액션(PAT 시크릿) 까지 완료
+막힌 것    : PR #19 본문에 "워크플로는 base 기준으로 로드되니 이번엔 실행 안 된다"고 썼는데 **틀렸다.** `pull_request` 는 머지 커밋 기준이라 PR 이 추가한 워크플로도 실행된다. base 기준인 것은 `pull_request_target` 이고, 그건 fork PR 에 시크릿을 주기 때문에 그렇게 설계된 것. 파일 출처와 시크릿 정책이 한 쌍
+다음 할 것 : Stage 4 — sub-issue 계층, Milestone, Project 필드(Priority/Estimate/Sprint), 뷰 3종, Insights. 이슈 #20(JSON Infinity)을 첫 sub-issue 실습 소재로 쓸 수 있음
